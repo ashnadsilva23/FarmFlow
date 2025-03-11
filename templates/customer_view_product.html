@@ -1,0 +1,110 @@
+{% include 'customer_header.html' %}
+
+<!-- Features Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="col-lg-12 wow fadeInUp" data-wow-delay="0.1s"> <!-- Changed col-lg-6 to col-lg-12 for full width -->
+            <p class="section-title bg-white text-start text-primary pe-3">Product!</p>
+            <div class="cart-container">
+                <form method="post">
+                    <div class="row">
+                        {% if data['view'] %}
+                            {% for i in data['view'] %}
+                                <div class="cart-item">
+                                    <div class="cart-details">
+                                        <h3>{{ i['product_name'] }}</h3>
+                                        <p><strong>Price:</strong> ₹<span id="amt">{{ i['price'] }}</span></p>
+                                        <p>
+                                            <strong>Quantity:</strong>
+                                            <span id="qty">{{ i['quantity'] }}</span>
+                                        </p>
+                                        <p><img src="{{ i['image'] }}" alt="" class="cart-image"></p>
+                                        <p><strong>Description:</strong> {{ i['description'] }}</p>
+                                        <p><a class="btn btn-success" href="?action2=addtocartproduct&product_id={{ i['product_id'] }}&price={{ i['price'] }}">ADD TO CART</a></p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <h3 class="empty-cart-message">Oops. Your Cart is Empty.</h3>
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Features End -->
+
+{% include 'footer.html' %}
+
+<!-- Add CSS -->
+<style>
+    .cart-container {
+        width: 100%; /* Use full width */
+        margin: auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start; /* Align items to the left */
+        gap: 20px; /* Space between items */
+    }
+
+    .cart-item {
+        flex: 1 1 calc(33.333% - 20px); /* Three items per row */
+        border: 1px solid #ddd;
+        background-color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .cart-item:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .cart-image {
+        width: 150px; /* Adjust image width */
+        height: 150px; /* Adjust image height */
+        object-fit: cover;
+        border-radius: 8px;
+        margin-bottom: 10px;
+    }
+
+    .cart-details {
+        text-align: center;
+    }
+
+    .cart-details h3 {
+        font-size: 18px;
+        margin: 10px 0;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .cart-details p {
+        font-size: 14px;
+        margin: 5px 0;
+        color: #555;
+    }
+
+    .cart-details .btn {
+        margin-top: 10px;
+    }
+
+    .empty-cart-message {
+        text-align: center;
+        font-size: 20px;
+        color: #999;
+    }
+
+    @media (max-width: 768px) {
+        .cart-item {
+            flex: 1 1 100%; /* Full width on smaller screens */
+        }
+    }
+</style>
