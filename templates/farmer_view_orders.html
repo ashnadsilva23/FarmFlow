@@ -1,0 +1,119 @@
+{% include 'farmer_header.html' %}
+<style>
+    .cart-container {
+        max-width: 800px; /* Increased width for better spacing */
+        margin: auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center; /* Center items */
+        gap: 20px; /* Space between items */
+    }
+
+    .cart-item {
+        flex: 1 1 calc(50% - 20px); /* Two items per row */
+        border: 1px solid #ddd;
+        background-color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        border-radius: 8px;
+    }
+
+    .cart-image {
+        width: 80px;
+        height: 80px;
+        margin-right: 15px;
+        border-radius: 5px;
+    }
+
+    .cart-details {
+        flex-grow: 1;
+    }
+
+    .cart-details h3 {
+        margin: 0;
+        opacity: 0.8;
+        font-size: 16px;
+    }
+
+    .cart-details p {
+        margin: 5px 0;
+        font-size: 14px;
+    }
+
+    .btn-sm {
+        padding: 4px 8px;
+        font-size: 12px;
+    }
+
+    .total-container {
+        text-align: right;
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .empty-cart-message {
+        text-align: center;
+        font-size: 20px;
+        color: white;
+        margin-top: 20px;
+    }
+
+    @media (max-width: 768px) {
+        .cart-item {
+            flex: 1 1 100%; /* Full width on smaller screens */
+        }
+        .cart-container {
+            max-width: 100%;
+        }
+        .total-container {
+            text-align: center;
+        }
+    }
+</style>
+
+<div id="services" class="services section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
+                <div class="section-heading wow fadeInDown" data-wow-duration="1s" data-wow-delay="0.5s">
+                    <h4>Orders</h4>
+                    <img src="/static/assets/images/heading-line-dec.png" alt="">
+                </div>
+            </div>
+        </div>
+
+        <center>
+            <div class="cart-container">
+                <form method="post">
+                    <div class="row">
+                        {% if data['view_book_booking'] %}
+                        {% for i in data['view_book_booking'] %}
+                        <div class="cart-item">
+                            <img class="cart-image" src="/{{i['image']}}" alt="Book Image">
+                            <div class="cart-details">
+                                <h3>{{ i['book'] }}</h3>
+                                <p><strong>Price:</strong> ₹<span id="amt">{{ i['amount'] }}</span></p>
+                                <p>
+                                    <strong>Quantity:</strong>
+                                    <span id="qty">{{ i['o_q'] }}</span>
+                                </p>
+                                <p><strong>Total:</strong> ₹<span id="t_amount">{{ i['c_t'] }}</span></p>
+                            </div>
+
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    {% else %}
+                    <h3 class="empty-cart-message">Oops. Your Cart is Empty.</h3>
+                    {% endif %}
+                </form>
+            </div>
+        </center>
+    </div>
+</div>
+
+{% include 'footer.html' %}
