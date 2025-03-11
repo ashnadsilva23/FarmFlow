@@ -1,0 +1,54 @@
+{% include 'admin_header.html' %}
+<center>
+
+    <!-- Features Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5 align-items-center">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <p class="section-title bg-white text-start text-primary pe-3">Manage Feeds!</p>
+                    
+                    <div class="row">
+                        {% for i in data['user_view'] %}
+                        <div class="col-md-6 mb-4">
+                            <div class="card shadow-sm">
+                                <img src="/{{ i['image'] }}" class="card-img-top" alt="Product Image" style="height: 200px; object-fit: cover;">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ i['product_name'] }}</h5>
+                                    <p class="card-text"><strong>Price:</strong> ₹{{ i['price'] }}</p>
+                                    
+                                    <p class="card-text"><strong>Quantity:</strong> 
+                                        {% if i['quantity']|int == 0 %}
+                                            <span class="text-danger">Out of Stock</span>
+                                        {% else %}
+                                            {{ i['quantity'] }}
+                                        {% endif %}
+                                    </p>
+    
+                                    <p class="card-text"><strong>Description:</strong> {{ i['description'] }}</p>
+                                    <p class="card-text"><strong>Status:</strong> {{ i['status'] }}</p>
+    
+                                    <div class="d-flex justify-content-between">
+    
+                                        {% if i['quantity']|int > 0 %}
+                                            <a href="admin_sent_feed_request?product_id={{ i['product_id'] }}" class="btn btn-primary">Send Request</a>
+                                        {% else %}
+                                            <button class="btn btn-danger" disabled>Out of Stock</button>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+    
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <!-- Features End -->
+
+</center>
+{% include 'footer.html' %}

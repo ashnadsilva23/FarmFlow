@@ -1,0 +1,124 @@
+{% include 'admin_header.html' %}
+<center>
+
+
+    <!-- Features Start -->
+   <div class="container-xxl py-5">
+    <div class="container">
+        <div class="row g-5 align-items-center">
+            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+                <p class="section-title bg-white text-start text-primary pe-3">Manage Farmers!</p>
+                <table class="table">
+                    <tr>
+                        <th>Sl No</th>
+                        <th>Name</th>
+                        <th>City</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>Action</th>
+                    </tr>
+                    {% for i in data['user_view'] %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ i['firstname'] }} {{ i['lastname'] }}</td>
+                        <td>{{ i['city'] }}</td>
+                        <td>{{ i['phone'] }}</td>
+                        <td>{{ i['email'] }}</td>
+                        <td>
+                            <a href="?action=delete&farmer_id={{ i['farmer_id'] }}&login_id={{ i['login_id'] }}" class="btn btn-danger btn-sm">DELETE</a>
+                            <a href="?action=update&farmer_id={{ i['farmer_id'] }}&login_id={{ i['login_id'] }}" class="btn btn-warning btn-sm">UPDATE</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="col-lg-6">
+                <div class="rounded overflow-hidden">
+                    {% if data['up'] %}
+                    <!-- ✅ Update Form -->
+                    <form method="post" action="">
+                        <!-- Hidden Fields to Track Farmer -->
+                        <input type="hidden" name="farmer_id" value="{{ data['up'][0]['farmer_id'] }}">
+                        <input type="hidden" name="login_id" value="{{ data['up'][0]['login_id'] }}">
+                        
+                        <table style="width: 500px;">
+                            <tr>
+                                <th>First Name</th>
+                                <td><input type="text" class="form-control form-control-sm" value="{{ data['up'][0]['firstname'] }}" required name="firstname"></td>
+                            </tr>
+                            <tr>
+                                <th>Last Name</th>
+                                <td><input type="text" class="form-control form-control-sm" value="{{ data['up'][0]['lastname'] }}" required name="lastname"></td>
+                            </tr>
+                            <tr>
+                                <th>City</th>
+                                <td><input type="text" class="form-control form-control-sm" value="{{ data['up'][0]['city'] }}" required name="city"></td>
+                            </tr>
+                            <tr>
+                                <th>Phone</th>
+                                <td><input type="text" class="form-control form-control-sm" value="{{ data['up'][0]['phone'] }}" required pattern="[0-9]{10}" maxlength="10" name="phone"></td>
+                            </tr>
+                            <tr>
+                                <th>Email</th>
+                                <td><input type="email" class="form-control form-control-sm" value="{{ data['up'][0]['email'] }}" required name="email"></td>
+                            </tr>
+                            <tr>
+                                <td align="center" colspan="2">
+                                    <input type="submit" class="btn btn-success btn-sm" name="update" value="Update">
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                    {% else %}
+                    <!-- ✅ Insert Form -->
+                    <form method="post" action="">
+                        <table style="width: 500px;">
+                            <tr>
+                                <th>First Name</th>
+                                <td><input type="text" class="form-control form-control-sm" required name="firstname"></td>
+                            </tr>
+                            <tr>
+                                <th>Last Name</th>
+                                <td><input type="text" class="form-control form-control-sm" required name="lastname"></td>
+                            </tr>
+                            <tr>
+                                <th>City</th>
+                                <td><input type="text" class="form-control form-control-sm" required name="city"></td>
+                            </tr>
+                            <tr>
+                                <th>Phone</th>
+                                <td><input type="text" class="form-control form-control-sm" required pattern="[0-9]{10}" maxlength="10" name="phone"></td>
+                            </tr>
+                            <tr>
+                                <th>Email</th>
+                                <td><input type="email" class="form-control form-control-sm" required name="email"></td>
+                            </tr>
+                            <tr>
+                                <th>Username</th>
+                                <td><input type="text" class="form-control form-control-sm" required name="username"></td>
+                            </tr>
+                            <tr>
+                                <th>Password</th>
+                                <td><input type="password" class="form-control form-control-sm" required name="password" id="password"></td>
+                            </tr>
+                          
+                            <tr>
+                                <td align="center" colspan="2">
+                                    <input type="submit" class="btn btn-success btn-sm" name="submitbutton" value="Submit">
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+    <!-- Features End -->
+    
+
+</center>
+{% include 'footer.html' %}

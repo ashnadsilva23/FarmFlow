@@ -1,0 +1,47 @@
+{% include 'admin_header.html' %}
+
+
+
+<center>
+
+
+    <!-- Features Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <p class="section-title bg-white text-start text-primary pe-3">Complaint!</p>
+                    <div class="cart-container">
+                        <table class="table">
+                            <tr>
+                                <th>Sl.No</th>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Complaint</th>
+                                <th>Date</th>
+                                <th>Reply</th>
+                            </tr>
+                            {% for i in data['view'] %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ i['firstname'] }} {{ i['lastname'] }}</td>
+                                <td>{{ i['usertype'] }}</td>
+                                <td>{{ i['complaint'] }}</td>
+                                <td>{{ i['date'] }}</td>
+                                {% if i['reply']=='pending' %}
+                                <td><a class="btn btn-primary" href="admin_send_reply?complaint_id={{i['complaint_id']}}">Reply</a></td>
+                                {% else %}
+                                <td>{{ i['reply'] }}</td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+
+        </div>
+    </div>
+    <!-- Features End -->
+    
+
+</center>
+{% include 'footer.html' %}

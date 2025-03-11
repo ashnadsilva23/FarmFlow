@@ -1,0 +1,86 @@
+{% include 'admin_header.html' %}
+
+<center>
+    <!-- Features Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+                <p class="section-title bg-white text-start text-primary pe-3">Report!</p>
+                <div class="cart-container">
+                    <form method="post">
+                        <table>
+                            <tr>
+                                <td>
+                                    <select name="type" class="form-control">
+                                        <option value="milk">Milk Collection Report</option>
+                                        <option value="order">Customer Order Report</option>
+                                    </select>
+                                </td>
+                                <td><input type="date" name="date" class="form-control"></td>
+                                <td><input type="submit" class="btn btn-success" name="submitbutton"></td>
+                            </tr>
+                        </table>
+                    </form>
+                    <table class="table" id="reportTable">
+                        {% if data['milkview'] %}
+                        <tr>
+                            <th>Sl No</th>
+                            <th>Farmer</th>
+                            <th>Milk Collection</th>
+                            <th>Date</th>
+                            <th>Quality</th>
+                        </tr>
+                        {% for i in data['milkview'] %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ i['firstname'] }} {{ i['lastname'] }}</td>
+                            <td>{{ i['milk_collection'] }} liter</td>
+                            <td>{{ i['collection_date'] }}</td>
+                            <td>{{ i['quality'] }}</td>
+                        </tr>
+                        {% endfor %}
+                        {% elif data['orderview'] %}
+                        <tr>
+                            <th>Sl No</th>
+                            <th>Item</th>
+                            <th>Price</th>
+                            <th>Liter</th>
+                            <th>Delivery Address</th>
+                            <th>Comment</th>
+                            <th>Order Date</th>
+                            <th>Status</th>
+                        </tr>
+                        {% for i in data['orderview'] %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ i['item'] }}</td>
+                            <td>{{ i['amount'] }} liter</td>
+                            <td>{{ i['milk_litter'] }}</td>
+                            <td>{{ i['deliver_address'] }}</td>
+                            <td>{{ i['comment'] }}</td>
+                            <td>{{ i['order_date'] }}</td>
+                            <td>{{ i['status'] }}</td>
+                        </tr>
+                        {% endfor %}
+                        {% endif %}
+                    </table>
+                    <button class="btn btn-primary" onclick="printReport()">Print Report</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Features End -->
+</center>
+
+<script>
+function printReport() {
+    var printContents = document.getElementById("reportTable").outerHTML;
+    var originalContents = document.body.innerHTML;
+    document.body.innerHTML = "<html><head><title>Print Report</title></head><body>" + printContents + "</body></html>";
+    window.print();
+    document.body.innerHTML = originalContents;
+    location.reload();
+}
+</script>
+
+{% include 'footer.html' %}

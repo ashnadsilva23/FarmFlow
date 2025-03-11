@@ -1,0 +1,171 @@
+{% include 'admin_header.html' %}
+<center>
+
+    <!-- Features Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5 align-items-center">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <p class="section-title bg-white text-start text-primary pe-3"> Milk collection Details!</p>
+                    
+                    <!-- Search Box -->
+                    <table class="table" id="milkTable">
+                        <tr>
+                            <td>
+                                <input type="text" id="searchInput" class="form-control" placeholder="Search by date (YYYY-MM-DD)...">
+                            </td>
+                        </tr>
+                        
+                        <!-- Table Headers -->
+                        <tr>
+                            <th>Sl No</th>
+                            <th>Farmer</th>
+                            <th>Milk Collection</th>
+                            <th>Date</th>
+                            <th>Fat (%)</th>
+                            <th>SNF (%)</th>
+                        </tr>
+
+                        <!-- Data Rows -->
+                        {% for i in data['view'] %}
+                        <tr class="data-row">
+                            <td>{{ loop.index }}</td>
+                            <td>{{ i['firstname'] }} {{ i['lastname'] }}</td>
+                            <td class="milk_collected">{{ i['milk_collection'] }}</td>
+                            <td class="collection_date">{{ i['collection_date'] }}</td>
+                            <td>{{ i['fat'] }}%</td>
+                            <td>{{ i['snf'] }}%</td>
+                        </tr>
+                        {% endfor %}
+
+                        <!-- Total Row -->
+                        <tr>
+                            <th>Total:</th>
+                            <td></td>
+                            <td id="totalMilk">0 liters</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Graph Section -->
+                <div class="col-lg-6">
+                    <canvas id="milkChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Form Section -->
+           
+
+        </div>
+    </div>
+    <!-- Features End -->
+
+</center>
+{% include 'footer.html' %}
+
+<!-- Include Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+// Select elements
+const searchInput = document.getElementById("searchInput");
+const totalMilkElement = document.getElementById("totalMilk");
+const ctx = document.getElementById("milkChart").getContext("2d");
+
+let milkChart;
+
+// Function to filter table and update chart
+function filterTableAndUpdateChart() {
+    let filter = searchInput.value.toUpperCase();
+    let rows = document.querySelectorAll(".data-row");
+    let totalMilk = 0;
+    let filteredFarmers = [];
+    let filteredMilk = [];
+
+    rows.forEach((row) => {
+        let dateCell = row.querySelector(".collection_date");
+        let milkCell = row.querySelector(".milk_collected");
+        let farmerName = row.cells[1].textContent; // Farmer Name
+        let milkValue = parseFloat(milkCell.textContent) || 0;
+        
+        if (dateCell && milkCell) {
+            let txtValue = dateCell.textContent || dateCell.innerText;
+
+            if (txtValue.toUpperCase().indexOf(filter) > -1 || filter === "") {
+                row.style.display = "";
+                totalMilk += milkValue;
+                filteredFarmers.push(farmerName);
+                filteredMilk.push(milkValue);
+            } else {
+                row.style.display = "none";
+            }
+        }
+    });
+
+    // Update Total Milk dynamically
+    totalMilkElement.textContent = totalMilk + " liters";
+
+    // Update the Chart with filtered data
+    updateChart(filteredFarmers, filteredMilk);
+}
+
+// Function to initialize or update the Chart
+function updateChart(farmerNames, milkCollection) {
+    if (milkChart) {
+        milkChart.destroy(); // Destroy the old chart before updating
+    }
+
+    milkChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: farmerNames,
+            datasets: [
+                {
+                    label: "Milk Collection (Liters)",
+                    data: milkCollection,
+                    backgroundColor: "rgba(54, 162, 235, 0.5)",
+                    borderColor: "rgba(54, 162, 235, 1)",
+                    borderWidth: 1,
+                },
+            ],
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                },
+            },
+        },
+    });
+}
+
+// Function to initialize total milk and chart on page load
+function initializePage() {
+    let rows = document.querySelectorAll(".data-row");
+    let totalMilk = 0;
+    let farmerNames = [];
+    let milkCollection = [];
+
+    rows.forEach((row) => {
+        let milkCell = row.querySelector(".milk_collected");
+        let farmerName = row.cells[1].textContent;
+        let milkValue = parseFloat(milkCell.textContent) || 0;
+        
+        totalMilk += milkValue;
+        farmerNames.push(farmerName);
+        milkCollection.push(milkValue);
+    });
+
+    totalMilkElement.textContent = totalMilk + " liters";
+    updateChart(farmerNames, milkCollection);
+}
+
+// Attach event listener
+searchInput.addEventListener("keyup", filterTableAndUpdateChart);
+
+// Run on page load
+window.onload = initializePage;
+</script>
