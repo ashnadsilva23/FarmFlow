@@ -1,0 +1,92 @@
+{% include 'head_office_header.html' %}
+<center>
+
+
+    <!-- Features Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5 align-items-center">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <p class="section-title bg-white text-start text-primary pe-3">Manage Subsidy!</p>
+                    <table class="table">
+                        <tr>
+                            <th>Sl No</th>
+                            <th>Subsidy</th>
+                            <th>Details</th>
+                            <th>Action</th>
+                        </tr>
+                        {% for i in data['user_view'] %}
+                        <tr>
+                            <td>{{loop.index}}</td>
+                            <td>{{i['Subsidy']}}</td>
+                            <td>{{i['Details']}}</td>
+                            <td><a href="?action=delete&Subsidy_id={{i['Subsidy_id']}}" class="btn btn-danger">DELETE</a></td>
+                            <td><a href="?action=update&Subsidy_id={{i['Subsidy_id']}}" class="btn btn-danger">UPDATE</a></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                <div class="col-lg-6">
+                    <div class="rounded overflow-hidden">
+
+
+
+
+
+
+
+
+                        {% if data['up'] %}
+                        <form method="post">
+                            <table  style="width: 500px;">
+                                <tr>
+                                    <th>Subsidy</th>
+                                    <td><input type="text" class="form-control" value="{{data['up'][0]['Subsidy']}}" required="" name="Subsidy"></td>
+                                </tr>
+                                <tr>
+                                    <th>Details</th>
+                                    <td><input type="text" class="form-control" value="{{data['up'][0]['Details']}}" required="" name="Details"></td>
+                                </tr>
+                                <tr>
+                                    <td align="center" colspan="2"><input type="submit" class="btn btn-success" name="update"></td>
+                                </tr>
+                            </table>
+                        </form>
+                        {% else %}
+                        <form method="post">
+                            <table  style="width: 500px;">
+                                <tr>
+                                    <th>Subsidy</th>
+                                    <td><input type="text" class="form-control" required="" name="Subsidy"></td>
+                                </tr>
+                                <tr>
+                                    <th>Details</th>
+                                    <td><input type="text" class="form-control"  required="" name="Details"></td>
+                                </tr>
+                                <tr>
+                                    <td align="center" colspan="2"><input type="submit" class="btn btn-success" name="submitbutton"></td>
+                                </tr>
+                            </table>
+                        </form>
+
+                        {% endif %}
+
+
+
+
+
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Features End -->
+    
+
+</center>
+{% include 'footer.html' %}

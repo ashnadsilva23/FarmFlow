@@ -1,0 +1,47 @@
+{% include 'head_office_header.html' %}
+<center>
+
+    <!-- Features Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5 align-items-center">
+                
+
+                <!-- Form Section -->
+                <div class="col-lg-6">
+                    <div class="rounded overflow-hidden">
+                        {% if data['up'] %}
+                        <form method="post" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label class="form-label">Quantity</label>
+                                <input type="text" class="form-control" value="{{ data['up'][0]['quantity'] }}" required name="Quantity">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Feeds Name</label>
+                                <input type="text" readonly class="form-control" value="{{ data['up'][0]['product_name'] }}" required name="Product">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Price</label>
+                                <input type="text" readonly class="form-control" value="{{ data['up'][0]['price'] }}" required name="Price">
+                            </div>
+                           
+                            <div class="mb-3">
+                                <label class="form-label">Description</label>
+                                <input type="text" readonly class="form-control" value="{{ data['up'][0]['description'] }}" required name="Description">
+                            </div>
+                            <div class="text-center">
+                                <input type="submit" class="btn btn-success" name="update" value="Update">
+                            </div>
+                        </form>
+                      
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Features End -->
+
+</center>
+{% include 'footer.html' %}
