@@ -1,0 +1,39 @@
+{% include 'admin_header.html' %}
+<center>
+    <div class="container-xxl py-5 d-flex justify-content-center">
+        <div class="container">
+            <div class="row g-5 align-items-center justify-content-center">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <p class="section-title bg-white text-start text-primary pe-3 text-center">Manage Subsidy!</p>
+                    <table class="table">
+                        <tr>
+                            <th>Sl No</th>
+                            <th>Subsidy</th>
+                            <th>Details</th>
+                            <th>Action</th>
+                        </tr>
+                        {% for i in data['user_view'] %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ i['Subsidy'] }}</td>
+                            <td>{{ i['Details'] }}</td>
+                            <td>
+                                {% if i['Subsidy_status'] == 'sent' %}
+                                    <button class="btn btn-secondary disabled">Sent</button>
+                                {% else %}
+                                    <a href="?action=accept&Subsidy_id={{ i['Subsidy_id'] }}&title={{ i['Subsidy'] }}&details={{ i['Details'] }}" 
+                                       class="btn btn-danger send-button" 
+                                       data-id="{{ i['Subsidy_id'] }}">
+                                        Send To Farmers
+                                    </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</center>
+{% include 'footer.html' %}

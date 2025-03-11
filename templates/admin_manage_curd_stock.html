@@ -1,0 +1,84 @@
+{% include 'admin_header.html' %}
+<center>
+
+
+    <!-- Features Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5 align-items-center">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <p class="section-title bg-white text-start text-primary pe-3">Manage Curd Stock!</p>
+                    <table class="table">
+                        <tr>
+                            <th>Sl No</th>
+                            <th>Stock (Liters)</th>
+                            <th>Action</th>
+                        </tr>
+                        {% for i in data['user_view'] %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ i['stock'] }}</td>
+                            <td><a href="?action=update&curd_stock_id={{ i['curd_stock_id'] }}" class="btn btn-danger">UPDATE</a></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                <div class="col-lg-6">
+                    <div class="rounded overflow-hidden">
+                        {% if data['up'] %}
+                        <!-- Update Form -->
+                        <form method="post">
+                            <input type="hidden" name="curd_stock_id" value="{{ data['up'][0]['curd_stock_id'] }}">
+                            <table style="width: 500px;">
+                                <tr>
+                                    <th>Stock (Liters)</th>
+                                    <td>
+                                        <input type="number" class="form-control" value="{{ data['up'][0]['stock'] }}" required name="stock" min="0">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="center" colspan="2">
+                                        <input type="submit" class="btn btn-success" name="update" value="Update Stock">
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                        {% else %}
+                        <!-- Insert Form -->
+                        <form method="post">
+                            <table style="width: 500px;">
+                                <tr>
+                                    <th>Stock (Liters)</th>
+                                    <td>
+                                        <input type="number" class="form-control" placeholder="Enter stock in liters" required name="stock" min="0">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="center" colspan="2">
+                                        <input type="submit" class="btn btn-success" name="submitbutton" value="Add Stock">
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Features End -->
+    
+
+</center>
+{% include 'footer.html' %}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let table = document.querySelector(".disable");
+        if (table) {
+            table.style.display = "none"; // Hides the table
+        }
+    });
+</script>
+

@@ -1,0 +1,79 @@
+{% include 'admin_header.html' %}
+<center>
+
+
+    <!-- Features Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5 align-items-center">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <p class="section-title bg-white text-start text-primary pe-3">Manage Price!</p>
+                    <table class="table">
+                        <tr>
+                            <th>Sl No</th>
+                            <th>Item</th>
+                            <th>Price</th>
+                            <th>Action</th>
+                        </tr>
+                        {% for i in data['user_view'] %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ i['item'] }}</td>
+                            <td>{{ i['price'] }}</td>
+                            <td><a href="?action=update&price_id={{ i['price_id'] }}" class="btn btn-danger">UPDATE</a></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                <div class="col-lg-6">
+                    <div class="rounded overflow-hidden">
+                        {% if data['up'] %}
+                        <!-- Update Form -->
+                        <form method="post">
+                            <input type="hidden" name="price_id" value="{{ data['up'][0]['price_id'] }}">
+                            <table style="width: 500px;">
+                                <tr>
+                                    <th>Item</th>
+                                    <td>
+                                        <select class="form-control" name="item" required>
+                                            <option value="Milk" {% if data['up'][0]['item'] == 'Milk' %}selected{% endif %}>Milk</option>
+                                            <option value="Curd" {% if data['up'][0]['item'] == 'Curd' %}selected{% endif %}>Curd</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Price</th>
+                                    <td><input type="text" class="form-control" value="{{ data['up'][0]['price'] }}" required name="price"></td>
+                                </tr>
+                                <tr>
+                                    <td align="center" colspan="2">
+                                        <input type="submit" class="btn btn-success" name="update" value="Update">
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                        {% else %}
+                        <!-- Insert Form -->
+                       
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Features End -->
+    
+
+</center>
+{% include 'footer.html' %}
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let table = document.querySelector(".disable");
+        if (table) {
+            table.style.display = "none"; // Hides the table
+        }
+    });
+</script>

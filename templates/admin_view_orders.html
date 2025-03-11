@@ -1,0 +1,87 @@
+{% include 'admin_header.html' %}
+
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        font-size: 18px;
+        text-align: left;
+    }
+    th, td {
+        padding: 12px;
+        border: 1px solid #ddd;
+    }
+    th {
+        background-color: #f4f4f4;
+    }
+    .status-button {
+        padding: 6px 12px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+        color: white;
+    }
+    .btn-accept { background: #28a745; }
+    .btn-reject { background: #dc3545; }
+    .btn-delivery { background: #ffc107; }
+    .btn-delivered { background: #17a2b8; }
+</style>
+
+<center>
+    <div class="container-xxl py-5">
+        <h2 class="text-center text-primary">Order History</h2>
+        <form method="post">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Price (₹)</th>
+                        <th>Liters</th>
+                        <th>Delivery Address</th>
+                        <th>Comment</th>
+                        <th>Order Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if data['view_order'] %}
+                    {% for i in data['view_order'] %}
+                    <tr>
+                        <td>{{ i['item'] }}</td>
+                        <td>{{ i['amount'] }}</td>
+                        <td>{{ i['milk_litter'] }}</td>
+                        <td>{{ i['deliver_address'] }}</td>
+                        <td>{{ i['comment'] }}</td>
+                        <td>{{ i['order_date'] }}</td>
+                        <td>{{ i['status'] }}</td>
+                        <td>
+                            {% if i['status']=='paid' %}
+                            <a class="status-button btn-accept" href="?action=Accept&milk_order_id={{i['milk_order_id']}}">Accept</a>
+                            <a class="status-button btn-reject" href="?action=Reject&milk_order_id={{i['milk_order_id']}}">Reject</a>
+                            {% elif i['status']=='Accept' %}
+                            <a class="status-button btn-delivery" href="?action=OutForDelivery&milk_order_id={{i['milk_order_id']}}">Out For Delivery</a>
+                            {% elif i['status']=='Out For Delivery' %}
+                            <a class="status-button btn-delivered" href="?action=Delivered&milk_order_id={{i['milk_order_id']}}">Delivered</a>
+                            {% else %}
+                            <span>{{ i['status'] }}</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="9" class="text-center">Oops. Your Cart is Empty.</td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </form>
+    </div>
+</center>
+{% include 'footer.html' %}

@@ -2,6 +2,8 @@ from flask import *
 from database import *
 from werkzeug.security import check_password_hash  # Import password verification
 from werkzeug.security import generate_password_hash
+from flask import  render_template, request, redirect, url_for, flash, session
+from werkzeug.security import check_password_hash
 
 
 public = Blueprint('public', __name__)
@@ -10,30 +12,36 @@ public = Blueprint('public', __name__)
 def public_homee():
     return render_template('public_home.html')
 
+
+
 @public.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':  # Check if form was submitted
         uname = request.form['uname']
         pwd = request.form['password']
 
-        # ✅ Secure Query (Prevents SQL Injection)
-        fg = "SELECT * FROM login WHERE username=%s"
-        ds = select(fg, (uname,))  # Using a parameterized query
+        # ✅ Check if it's the admin login (Hardcoded credentials)
+        if uname == "admin" and pwd == "admin@123":
+            session['login_id'] = "admin"
+            session['username'] = uname
+            flash("Admin login successful!")
+            return redirect(url_for('admin.admin_homee'))  # Redirect to admin home
+
+        # ✅ If not admin, check the database for other users
+        query = "SELECT * FROM login WHERE username=%s"
+        ds = select(query, (uname,))  # Using parameterized query
 
         if ds:
             stored_hashed_password = ds[0]['password']  # Get stored hashed password
             
-            # ✅ Compare user-entered password with stored hashed password
+            # ✅ Compare the entered password with stored hashed password
             if check_password_hash(stored_hashed_password, pwd):  
                 session['login_id'] = ds[0]['login_id']  # Store login_id in session
-                session['username'] = uname  # ✅ Store username in session
-
-                user_type = ds[0]['usertype']  # Get user type
+                session['username'] = uname
                 flash("Login successful!")
 
-                if user_type == 'admin':  
-                    return redirect(url_for('admin.admin_homee'))
-                elif user_type == 'user':  
+                user_type = ds[0]['usertype']  # Get user type
+                if user_type == 'user':  
                     return redirect(url_for('user.user_dashboard'))  
             else:
                 flash("Invalid username or password!")
@@ -44,6 +52,7 @@ def login():
         return redirect(url_for('public.login'))  # Redirect after failed login
 
     return render_template('login.html')
+
 
 
 @public.route('/forgot-password', methods=['GET', 'POST'])
