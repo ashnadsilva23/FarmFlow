@@ -1,0 +1,55 @@
+{% include 'farmer_header.html' %}
+<center>
+
+
+    <!-- Features Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5 align-items-center">
+                <p class="section-title bg-white text-start text-primary pe-3">Daily Milk Collection Report!</p>
+                <table class="table">
+                    <tr>
+                        <th>Sl No</th>
+                        <th>Milk Collection</th>
+                        <th>Date</th>
+                        <th>Fat (%)</th>
+                        <th>Status</th>
+                        <th>Rejection Reason</th>
+                        <th>Payment</th>
+                    </tr>
+                    {% for i in data['view'] %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ i['milk_collection'] }} liter</td>
+                        <td>{{ i['collection_date'] }}</td>
+                        <td>{{ i['fat'] }}%</td>
+                        <td>
+                            {% if i['status'] == 'Rejected' %}
+                                <span style="color: red;">Rejected</span>
+                            {% elif i['status'] == 'Approved' %}
+                                <span style="color: green;">Approved</span>
+                            {% else %}
+                                <span style="color: orange;">Pending</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ i['rejection_reason'] if i['status'] == 'Rejected' else 'N/A' }}</td>
+                        <td>
+                            {% if i['status'] == 'Approved' %}
+                                <a href="farmer_view_payment?milk_collection_id={{ i['milk_collection_id'] }}">Payment</a>
+                            {% else %}
+                                <span style="color: gray;">Not Available</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    
+    <!-- Features End -->
+    
+
+</center>
+{% include 'footer.html' %}
