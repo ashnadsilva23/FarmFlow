@@ -1,0 +1,99 @@
+{% include 'head_office_header.html' %}
+<center>
+
+    <!-- Features Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5 align-items-center">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <p class="section-title bg-white text-start text-primary pe-3">Manage Feeds!</p>
+                    
+                    <div class="row">
+                        {% for i in data['user_view'] %}
+                        <div class="col-md-6 mb-4">
+                            <div class="card shadow-sm">
+                                <img src="/{{ i['image'] }}" class="card-img-top" alt="Product Image" style="height: 200px; object-fit: cover;">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ i['product_name'] }}</h5>
+                                    <p class="card-text"><strong>Price:</strong> ₹{{ i['price'] }}</p>
+                                    <p class="card-text"><strong>Quantity:</strong> {{ i['quantity'] }}</p>
+                                    <p class="card-text"><strong>Description:</strong> {{ i['description'] }}</p>
+                                    <div class="d-flex justify-content-between">
+                                        <a href="?action=delete&product_id={{ i['product_id'] }}" class="btn btn-danger">Delete</a>
+                                        <a href="?action=update&product_id={{ i['product_id'] }}" class="btn btn-primary">Update</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+
+                <!-- Form Section -->
+                <div class="col-lg-6">
+                    <div class="rounded overflow-hidden">
+                        {% if data['up'] %}
+                        <form method="post" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label class="form-label">Feeds Name</label>
+                                <input type="text" class="form-control" value="{{ data['up'][0]['product_name'] }}" required name="Product">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Price</label>
+                                <input type="text" class="form-control" value="{{ data['up'][0]['price'] }}" required name="Price">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Quantity</label>
+                                <input type="text" class="form-control" value="{{ data['up'][0]['quantity'] }}" required name="Quantity">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Image</label>
+                                <input type="file" class="form-control" name="Image">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Description</label>
+                                <input type="text" class="form-control" value="{{ data['up'][0]['description'] }}" required name="Description">
+                            </div>
+                            <div class="text-center">
+                                <input type="submit" class="btn btn-success" name="update" value="Update">
+                            </div>
+                        </form>
+                        {% else %}
+                        <form method="post" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label class="form-label">Feeds Name</label>
+                                <input type="text" class="form-control" required name="Product">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Price</label>
+                                <input type="text" class="form-control" required name="Price" pattern="\d+" title="Please enter only digits" placeholder="Enter price">
+
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Quantity</label>
+                                <input type="text" class="form-control" required name="Quantity" pattern="\d+" title="Please enter only digits" placeholder="Enter quantity">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Image</label>
+                                <input type="file" class="form-control" required name="Image">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Description</label>
+                                <input type="text" class="form-control" required name="Description">
+                            </div>
+                            <div class="text-center">
+                                <input type="submit" class="btn btn-success" name="submitbutton" value="Submit">
+                            </div>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Features End -->
+
+</center>
+{% include 'footer.html' %}

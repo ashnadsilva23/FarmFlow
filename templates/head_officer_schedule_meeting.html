@@ -1,0 +1,70 @@
+{% include 'head_office_header.html' %}
+<center>
+
+
+    <!-- Features Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5 align-items-center">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <p class="section-title bg-white text-start text-primary pe-3">Schedule Meeting!</p>
+                    <table class="table">
+                        <tr>
+                            <th>Sl.No</th>
+                            <th>Link</th>
+                            <th>Description</th>
+                            <th>Schedule Date</th>
+                        </tr>
+                        {% for i in data['view'] %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ i['link'] }}</a></td>
+                            <td>{{ i['description'] }}</td>
+                            <td>{{ i['shedule_date'] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                <div class="col-lg-6">
+                    <div class="rounded overflow-hidden">
+
+
+
+
+                        <form method="post">
+                            <table  style="width: 500px;">
+                                <tr>
+                                    <th>Link</th>
+                                    <td><input type="text" class="form-control" required name="link"></td>
+                                </tr>
+                                <tr>
+                                    <th>Description</th>
+                                    <td><input type="text" class="form-control" required name="description"></td>
+                                </tr>
+                                <tr>
+                                    <th>Schedule Date</th>
+                                    <td><input type="date" class="form-control" required name="schedule_date"></td>
+                                </tr>
+                                <tr>
+                                    <td align="center" colspan="2">
+                                        <input type="submit" class="btn btn-success" name="submitbutton">
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Features End -->
+    
+
+</center>
+{% include 'footer.html' %}
